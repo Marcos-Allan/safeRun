@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@theme {
+    /* CORES */
+  --color-my-primary: #3B7A58; 
+  --color-my-secondary: #733A8E;
+  --color-my-terciary: #36253F;
+  --color-my-gray: #a4a4a4;
+  --color-my-white: #FEFEFE;
+  --color-my-black: #0D0D0D;
+  --color-my-red: #dd3522;
+  --color-my-pink: #DAC4E3;
+}
+
+@layer utilities {
+  @keyframes textColorChange {
+    0% {
+      color: var(--color-my-secondary);
+    }
+    50% {
+      color: var(--color-my-primary);
+    }
+    100% {
+      color: var(--color-my-terciary);
+    }
+  }
+
+  .animate-text-color {
+    animation: textColorChange 1.5s infinite linear;
+  }
+}
