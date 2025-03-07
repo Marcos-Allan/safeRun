@@ -13,13 +13,13 @@ export default function Header() {
     const { theme, toggleTheme } = useContext(GlobalContext);
 
     return(
-        <div className={`bg-transparent z-[2] absolute top-0 left-0 w-full flex tems-center px-4 justify-end ${theme == 'dark' ? 'text-my-white' : 'text-my-black'}`}>
+        <div className={`z-[2] fixed top-0 left-0 w-full flex tems-center px-4 justify-end ${theme == 'dark' ? 'text-my-white' : 'text-my-black '}`}>
             <div
                 onClick={() => {
                     console.log("clicou")
                     toggleTheme()
                 }}
-                className={`text-[36px] m-6`}
+                className={`text-[36px] m-6 transition-all duration-[.25s] hover:rotate-[360deg] cursor-pointer`}
             >
                 {theme == 'light' ? (
                     <IoSunny />

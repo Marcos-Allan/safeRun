@@ -1,6 +1,6 @@
 //IMPORTAÇÃO DAS BIBLIOTECAS
 import { useState, useEffect, useContext } from 'react'
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import axios from 'axios'
 import { toast } from 'react-toastify';
 
@@ -10,35 +10,35 @@ import { GlobalContext } from "../../provider/context";
 //IMPORTAÇÃO DOS COMPONENTES
 import Button from '../../components/Button';
 import Header from '../../components/Header';
+import Input from '../../components/Input';
+import GoogleLogin from '../../components/GoogleLogin';
 
 //IMPORTAÇÃO DOS ÍCONES
-import { FiUser } from "react-icons/fi";
-import { HiOutlineLockClosed } from "react-icons/hi2";
-import { LuEye, LuEyeOff } from "react-icons/lu";
-import { FcGoogle } from "react-icons/fc";
-import { MdOutlineEmail } from "react-icons/md";
-import { FaCheck } from "react-icons/fa6";
+import { FaCheck } from 'react-icons/fa';
 
 export default  function SignUp() {
+    
+    //UTILIZAÇÃO DO HOOK useNavigate
+    const navigate = useNavigate()
 
     //UTILIZAÇÃO DO HOOK useState
     const [terms, setTerms] = useState(false)
-    const [name, setName] = useState<string>('')
-    const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('') 
+    const [password, setPassword] = useState('')
     
-    const [nameValid, setNameValid] = useState<boolean | undefined>(undefined)
-    const [emailValid, setEmailValid] = useState<boolean | undefined>(undefined)
-    const [passwordValid, setPasswordValid] = useState<boolean | undefined>(undefined)
+    const [nameValid, setNameValid] = useState(undefined)
+    const [emailValid, setEmailValid] = useState(undefined) 
+    const [passwordValid, setPasswordValid] = useState(undefined)
     
-    const [btnValid, setBtnValid] = useState<boolean>(false)
+    const [btnValid, setBtnValid] = useState(false)
 
-    const [timeoutIdName, setTimeoutIdName] = useState<NodeJS.Timeout | null>(null);
-    const [timeoutIdEmail, setTimeoutIdEmail] = useState<NodeJS.Timeout | null>(null);
-    const [timeoutIdPassword, setTimeoutIdPassword] = useState<NodeJS.Timeout | null>(null);
+    const [timeoutIdName, setTimeoutIdName] = useState(null);
+    const [timeoutIdEmail, setTimeoutIdEmail] = useState(null);
+    const [timeoutIdPassword, setTimeoutIdPassword] = useState(null);
 
     //IMPORTAÇÃO DAS VARIAVEIS DE ESTADO GLOBAL
-    const { theme } = useContext(GlobalContext);
+    const { theme, toggleLoading, toggleUser } = useContext(GlobalContext);
 
     //FUNÇÃ ORESPONSÁVEL POR TROCAR O ESTADO DO terms
     function toggleTerms() {
@@ -67,7 +67,12 @@ export default  function SignUp() {
             if(typeof response.data === 'object'){
                 toast.dismiss();
                 //CHAMA O MODAL DE SUCESSO
-                toast.success(`Seja muito bem vindo ${response.data.name}`)
+                toast.success(`Seja muito bem vindo ${response.data.name}`, {
+                    style: {
+                        backgroundColor: theme == 'light' ? "#FEFEFE" : "#0D0D0D",
+                        color: theme == 'light' ? "#0D0D0D" : "#FEFEFE"
+                    }
+                })
 
                 //COLOCA OS DADOS DO BACKEND DO USUÁRIO NO FRONTEND
                 toggleUser(response.data._id, response.data.name, response.data.email, response.data.historico_pedido, response.data.client_type, true)
@@ -77,7 +82,12 @@ export default  function SignUp() {
             }else{
                 toast.dismiss();
                 //CHAMA O MODAL DE ERRO
-                toast.error(response.data)
+                toast.error(response.data, {
+                    style: {
+                        backgroundColor: theme == 'light' ? "#FEFEFE" : "#0D0D0D",
+                        color: theme == 'light' ? "#0D0D0D" : "#FEFEFE"
+                    }
+                })
             }
         })
         .catch(function (error) {
@@ -231,20 +241,12 @@ export default  function SignUp() {
     },[emailValid, passwordValid, nameValid])
 
     return(
-        <div className={`w-screen min-h-[100dvh] flex flex-col items-center justify-start pt-[70px] ${theme == 'light' ? 'bg-my-white text-my-black' : 'bg-my-black text-my-white'}`}>
+        <div className={`max-w-screen min-h-[100dvh] flex flex-col items-center justify-start pt-[70px] ${theme == 'light' ? 'bg-my-white text-my-black' : 'bg-my-black text-my-white'} overflow-x-hidden pb-[50px]`}>
 
             <Header />
 
-            <h1 className={`z-[2] w-[80%] text-left font-bold text-[28px] mb-1`}>Vamos comçar</h1>
-            <p className={`pl-1 text-left w-[80%] text-my-gray mb-10 text-[16px]`}>Crie sua conta para continuar</p>
-
-            <label htmlFor="#input-email" className={`text-my-gray text-left w-[80%] mb-2`}>Email</label>
-            <div className={`w-[80%] flex items-center justify-center pl-2 py-1 border-[1px] border-my-gray rounded-[8px] mb-6`}>
-                <label htmlFor="#input-email">
-                    <MdOutlineEmail className={`text-[24px] mb-1`} />
-                </label>
-                <input id="input-email" placeholder="Email" className={`py-3 px-3 focus:outline-none flex-grow-[1] placeholder:text-my-gray`} />
-            </div>
+            <h1 className={`z-[2] w-[80%] text-left font-bold text-[28px] mb-1 max-w-[700px]`}>Vamos comçar</h1>
+            <p className={`pl-1 text-left w-[80%] text-my-gray mb-10 text-[16px] max-w-[700px]`}>Crie uma conta para continuar</p>
 
             <Input
                 type={'email'}
@@ -257,7 +259,7 @@ export default  function SignUp() {
             />
             
             <Input
-                type={'text'}
+                type={'name'}
                 label={'Nome'}
                 placeholder={'Nome'}
                 validate={nameValid}
@@ -275,35 +277,8 @@ export default  function SignUp() {
                 onChange={handlePasswordInput}
                 ind={'current-password'}
             />
-            
-            <label htmlFor="#input-nome" className={`text-my-gray text-left w-[80%] mb-2`}>Nome</label>
-            <div className={`w-[80%] flex items-center justify-center pl-2 py-1 border-[1px] border-my-gray rounded-[8px] mb-6`}>
-                <label htmlFor="#input-nome">
-                    <FiUser className={`text-[24px] mb-1`} />
-                </label>
-                <input id="input-nome" placeholder="Nome" className={`py-3 px-3 focus:outline-none flex-grow-[1] placeholder:text-my-gray`} />
-            </div>
-            
-            <label htmlFor="#input-senha" className={`text-my-gray text-left w-[80%] mb-2`}>Senha</label>
-            <div className={`w-[80%] flex items-center justify-center pl-2 py-1 border-[1px] border-my-gray rounded-[8px] relative mb-8`}>
-                <label htmlFor="#input">
-                    <HiOutlineLockClosed className={`text-[24px]`} />
-                </label>
-                <input id="input-senha" placeholder="*******" type={`${isVisible == true ? 'text' : 'password'}`} className={`py-3 px-3 focus:outline-none flex-grow-[1] placeholder:text-my-gray`} />
-                {isVisible == true ? (
-                    <LuEyeOff
-                        className={`text-[24px] absolute right-0 mr-2`}
-                        onClick={() => setIsVisible(!isVisible)}
-                    />
-                ) : (
-                    <LuEye
-                        className={`text-[24px] absolute right-0 mr-2`}
-                        onClick={() => setIsVisible(!isVisible)}
-                    />
-                )}
-            </div>
 
-            <div className={`w-[80%] flex items-center gap-2 mb-4 font-light`}>
+            <div className={`w-[80%] flex items-center justify-center gap-2 mb-4 font-light max-w-[700px]`}>
                 <div
                     onClick={() => toggleTerms()}
                     className={`
@@ -320,12 +295,11 @@ export default  function SignUp() {
             
             <Button text={'criar conta'} event={() => signUp()} />
 
-            <p className={`text-my-gray font-light text-[16px] mt-4 mb-6`}>Já tem uma conta? <Link to={'/sign-in'} className={`font-bold text-[18px]`}>Entre</Link></p>
+            <p className={`text-my-gray font-light text-[16px] mt-4 mb-1`}>Já tem uma conta? <Link to={'/sign-in'} className={`font-bold text-[18px]`}>Entre</Link></p>
+            
+            <p className={`text-my-gray font-light text-[16px] mt-2 mb-6`}>Esqueceu sua senha? <Link to={'/forgout-password'} className={`font-bold text-[18px]`}>Recupere</Link></p>
 
-            <div className={`w-[80%] flex items-center justify-center border-[1px] border-my-gray px-4 py-3 rounded-[6px] relative`}>
-                <FcGoogle className={`text-[32px]`} />
-                <p className={`flex-grow-[1] text-center text-[18px] font-semibold text-my-gray`}>Continue com o Google</p>
-            </div>
+            <GoogleLogin />
         </div>
     )
 }

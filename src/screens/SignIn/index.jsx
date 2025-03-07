@@ -11,9 +11,7 @@ import { GlobalContext } from "../../provider/context";
 import Button from '../../components/Button';
 import Header from '../../components/Header';
 import Input from '../../components/Input/index';
-
-//IMPORTAÇÃO DOS ÍCONES
-import { FcGoogle } from "react-icons/fc";
+import GoogleLogin from '../../components/GoogleLogin';
 
 export default  function SignIn() {
 
@@ -191,12 +189,12 @@ export default  function SignIn() {
     },[emailValid, passwordValid])
 
     return(
-        <div className={`w-screen min-h-[100dvh] flex flex-col items-center justify-start pt-[70px] ${theme == 'light' ? 'bg-my-white text-my-black' : 'bg-my-black text-my-white'}`}>
+        <div className={`w-screen min-h-[100dvh] flex flex-col items-center justify-start pt-[70px] ${theme == 'light' ? 'bg-my-white text-my-black' : 'bg-my-black text-my-white'} overflow-x-hidden pb-[50px]`}>
 
             <Header />
 
-            <h1 className={`z-[2] w-[80%] text-left font-bold text-[28px] mb-1`}>Entre com sua conta</h1>
-            <p className={`pl-1 text-left w-[80%] text-my-gray mb-10 text-[16px]`}>Bem vindo de volta, sentimos sua falta!</p>
+            <h1 className={`z-[2] w-[80%] text-left font-bold text-[28px] mb-1 max-w-[700px]`}>Entre com sua conta</h1>
+            <p className={`pl-1 text-left w-[80%] text-my-gray mb-10 text-[16px] max-w-[700px]`}>Bem vindo de volta, sentimos sua falta!</p>
 
             <Input
                 type={'email'}
@@ -220,12 +218,11 @@ export default  function SignIn() {
 
             <Button text={'entrar'} event={() => signIn()} />
 
-            <p className={`text-my-gray font-light text-[16px] mt-4 mb-6`}>Não tem uma conta ainda? <Link to={'/sign-up'} className={`font-bold text-[18px]`}>Crie uma</Link></p>
-
-            <div className={`w-[80%] flex items-center justify-center border-[1px] border-my-gray px-4 py-3 rounded-[6px] relative`}>
-                <FcGoogle className={`text-[32px]`} />
-                <p className={`flex-grow-[1] text-center text-[18px] font-semibold text-my-gray`}>Continue com o Google</p>
-            </div>
+            <p className={`text-my-gray font-light text-[16px] mt-4 mb-1`}>Não tem uma conta ainda? <Link to={'/sign-up'} className={`font-bold text-[18px]`}>Crie uma</Link></p>
+            
+            <p className={`text-my-gray font-light text-[16px] mt-2 mb-6`}>Esqueceu sua senha? <Link to={'/forgout-password'} className={`font-bold text-[18px]`}>Recupere</Link></p>
+            
+            <GoogleLogin />
         </div>
     )
 }

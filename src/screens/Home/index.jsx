@@ -19,18 +19,22 @@ export default function Home() {
     const { theme } = useContext(GlobalContext);
 
     return(
-        <div className={`w-screen min-h-[100dvh] ${theme == 'light' ? 'bg-my-white' : 'bg-my-black'} flex flex-col items-center justify-start pt-[300px]`}>
+        <div className={`w-screen overflow-x-hidden h-[calc(100dvh)] ${theme == 'light' ? 'bg-my-white' : 'bg-my-black'}  flex flex-col items-center justify-start `}>
             <Header />
 
             <Background />
             
-            <h1 className={`z-[2] w-[80%] text-center font-bold text-[42px] ${theme == 'light' ? 'text-my-black' : 'text-my-white'} mb-[-80px]`}>Bem-vindo a</h1>
+            <div className={`flex-grow-[1] flex flex-col items-center justify-center `}>
+                <h1 className={`z-[2] w-[80%] text-center font-bold text-[42px] ${theme == 'light' ? 'text-my-black' : 'text-my-white'} mb-[-80px]`}>Bem-vindo a</h1>
+                
+                <img className={`z-[2]`} src={`${theme == 'light' ? logoLight : logoDark}`} />
+                
+                <p className={`z-[2] text-center w-[80%] text-my-gray mt-[-100px] mb-10 text-[20px]`}>Com bastante experiência na industria de roupas, nós criamos camisas de alta qualidade</p>
+            </div>
             
-            <img className={`z-[2]`} src={`${theme == 'light' ? logoLight : logoDark}`} />
-            
-            <p className={`z-[2] text-center w-[80%] text-my-gray mt-[-100px] mb-10 text-[20px]`}>Com bastante experiência na industria de roupas, nós criamos camisas de alta qualidade</p>
-            
-            <Button text={'iniciar'} route={'/sign-in'} />
+            <div className={`flex items-center justify-center w-full mb-[40px]`}>
+                <Button text={'iniciar'} route={'/sign-in'} />
+            </div>
 
         </div>
     )

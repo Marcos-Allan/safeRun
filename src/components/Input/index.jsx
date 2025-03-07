@@ -1,19 +1,25 @@
 //IMPORTAÇÃO DAS BIBLIOTECAS
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 
 //IMPORTAÇÃO DOS ICONES
 import { FaCheck } from "react-icons/fa"
 import { FaCircleXmark } from "react-icons/fa6"
-
 import { FiUser } from "react-icons/fi";
 import { HiOutlineLockClosed } from "react-icons/hi2";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import { MdOutlineEmail } from "react-icons/md";
+import { IoMdPhonePortrait } from "react-icons/io";
+
+//IMPORTAÇÃO DO PROVEDOR DOS ESTADOS GLOBAIS
+import { GlobalContext } from '../../provider/context';
 
 export default function Input(props) {
 
     //UTILIZAÇÃO DO HOOK useState
     const [visible, setVisible] = useState(false)
+
+    //IMPORTAÇÃO DAS VARIAVEIS DE ESTADO GLOBAL
+    const { theme } = useContext(GlobalContext);
 
     //FUNÇÃO RESPONSÁVEL POR TROCAR O TIPO DO CAMPO DE TEXTO
     function togglePasswordType() {
@@ -44,7 +50,7 @@ export default function Input(props) {
                                     <MdOutlineEmail className={`text-[24px] mb-1
                                         ${props.validate == true && 'text-my-primary'}
                                         ${props.validate == false && 'text-my-red'}
-                                        ${props.validate == undefined && 'text-my-black'}`}
+                                        ${props.validate == undefined && `${theme == 'light' ? 'text-my-black' : 'text-my-white'}`}`}
                                     />
                                 </label>
                             )}
@@ -53,7 +59,16 @@ export default function Input(props) {
                                     <FiUser className={`text-[24px] mb-1
                                         ${props.validate == true && 'text-my-primary'}
                                         ${props.validate == false && 'text-my-red'}
-                                        ${props.validate == undefined && 'text-my-black'}`}
+                                        ${props.validate == undefined && `${theme == 'light' ? 'text-my-black' : 'text-my-white'}`}`}
+                                    />
+                                </label>
+                            )}
+                            {props.type == 'code' && (
+                                <label>
+                                    <IoMdPhonePortrait className={`text-[24px] mb-1
+                                        ${props.validate == true && 'text-my-primary'}
+                                        ${props.validate == false && 'text-my-red'}
+                                        ${props.validate == undefined && `${theme == 'light' ? 'text-my-black' : 'text-my-white'}`}`}
                                     />
                                 </label>
                             )}
@@ -62,7 +77,7 @@ export default function Input(props) {
                                     <HiOutlineLockClosed className={`text-[24px] mb-1
                                         ${props.validate == true && 'text-my-primary'}
                                         ${props.validate == false && 'text-my-red'}
-                                        ${props.validate == undefined && 'text-my-black'}`}
+                                        ${props.validate == undefined && `${theme == 'light' ? 'text-my-black' : 'text-my-white'}`}`}
                                     />
                                 </label>
                             )}
@@ -98,7 +113,7 @@ export default function Input(props) {
                         
                         ${props.validate == true && 'text-my-primary'}
                         ${props.validate == false && 'text-my-red'}
-                        ${props.validate == undefined && 'text-my-black'}
+                        ${props.validate == undefined && `${theme == 'light' ? 'text-my-black' : 'text-my-white'}`}
 
                         ${props.validate == true && 'placeholder:text-my-primary'}
                         ${props.validate == false && 'placeholder:text-my-red'}
