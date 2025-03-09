@@ -22,6 +22,8 @@ import SignUp from './screens/SignUp';
 import ForgoutPassword from './screens/ForgoutPassword';
 import ConfirmCode from './screens/ConfirmCode';
 import SwitchPassword from './screens/SwitchPassword';
+import MyPerfil from './screens/MyPerfil';
+import Principal from './screens/Principal';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -35,6 +37,8 @@ createRoot(document.getElementById('root')).render(
           <Route path='/forgout-password' element={<ForgoutPassword />} />
           <Route path='/confirm-code' element={<ConfirmCode />} />
           <Route path='/switch-password' element={<SwitchPassword />} />
+          <Route path='/my-perfil' element={<MyPerfil />} />
+          <Route path='/principal' element={<Principal />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer limit={1} />

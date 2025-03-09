@@ -21,6 +21,7 @@ export const GlobalProvider = ({ children }) => {
             ],
             client_type: userLS !== null ? JSON.parse(userLS).client_type : 'client',
             logged: userLS !== null ? JSON.parse(userLS).logged : false,
+            img: userLS !== null ? JSON.parse(userLS).img : undefined,
         }
     );
     const [cart, setCart] = useState(userLS !== null ? JSON.parse(userLS).cart : []);
@@ -55,9 +56,9 @@ export const GlobalProvider = ({ children }) => {
     }
 
     //FUNÇÃO RESPONSÁVEL POR ATUALIZAR OS DADOS DO USUÁRIO
-    function toggleUser(id, name, email, history, cart, client_type, logged) {
+    function toggleUser(id, name, email, history, cart, client_type, img, logged) {
         //SALVA OS DADOS DO USUÁRIO NO localStorage
-        localStorage.setItem('userSafeRun', JSON.stringify({ id: id, name: name, email: email, history: history, cart: cart, client_type: client_type, logged: logged }))
+        localStorage.setItem('userSafeRun', JSON.stringify({ id: id, name: name, email: email, history: history, cart: cart, client_type: client_type, logged: logged, img: img }))
         
         //SALVA OS DADOS NO FRONTEND DA APLICAÇÃO
         setUser({ id: id, name: name, email: email, history: history, client_type: client_type, logged: logged })
@@ -72,7 +73,7 @@ export const GlobalProvider = ({ children }) => {
         localStorage.removeItem('userculturalPassport')
         
         //SALVA OS DADOS NO FRONTEND DA APLICAÇÃO
-        setUser({ id: 0, name: "MA", email: "allanmenezes880@gmail.com", client_type: "client", logged: false, history: [
+        setUser({ id: 0, name: "MA", email: "allanmenezes880@gmail.com", client_type: "client", img: undefined, logged: false, history: [
             { data: '9/10/2024', name: 'Caneca Porcelana', img: 'undefined', price: 19.90, quantity: 2, estampa: '', },
             { data: '24/08/2024', name: 'Caneca Mágica', img: 'undefined', price: 24.75, quantity: 4, estampa: '', },
         ] })
