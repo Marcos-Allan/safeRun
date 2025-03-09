@@ -1,5 +1,5 @@
 //IMPORTAÇÃO DAS BIBLIOTECAS
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 
 //IMPORTAÇÃO DO PROVEDOR DOS ESTADOS GLOBAIS
 import { GlobalContext } from "../../provider/context";
@@ -12,6 +12,7 @@ import { MdArrowRightAlt } from "react-icons/md";
 //IMPORTAÇÃO DOS COMPONENTES
 import Header from '../../components/Header';
 import Navbar from '../../components/Navbar';
+import ModalUpdateUser  from '../../components/ModalUpdateUser'
 
 //IMPORTAÇÃO DAS IMAGENS
 import camisa from '../../assets/camisa-placeholder.png'
@@ -19,14 +20,21 @@ import camisa from '../../assets/camisa-placeholder.png'
 export default function MyPerfil() {
 
     //IMPORTAÇÃO DAS VARIAVEIS DE ESTADO GLOBAL
-    const { theme, user } = useContext(GlobalContext);
+    const { theme, user, toggleUpdateUserModal } = useContext(GlobalContext);
+
+    useEffect(() => {
+        console.log(user)
+    },[])
 
     return(
         <div className={`max-w-screen sm:ps-[77px] sm:w-[100dvw-77px] min-h-[100dvh] flex flex-col items-center justify-start pt-[70px] ${theme == 'light' ? 'bg-my-white text-my-black' : 'bg-my-black text-my-white'} overflow-x-hidden pb-[80px]`}>
             <Header />
             
             {user.img !== undefined ? (
-                <img src={user.img} alt="" />
+                <div
+                    style={{ backgroundImage: `url('${user.img}')` }}
+                    className={`my-2 w-[140px] h-[140px] rounded-[50%] bg-cover`}
+                />
             ) : (
                 <div className={`${theme == 'light' ? 'bg-my-black' : 'bg-my-white'} rounded-[50%] p-12`}>
                     <FaUser className={`text-[100px] ${theme == 'light' ? 'text-my-white' : 'text-my-black'}`} />
@@ -46,7 +54,10 @@ export default function MyPerfil() {
                 </div>
             </div>
 
-            <div className={`w-[80%] max-w-[650px] flex items-center justify-center border-b-[1px] border-my-gray py-3 mt-3 mb-6`}>
+            <div
+                onClick={() => toggleUpdateUserModal()}
+                className={`w-[80%] max-w-[650px] flex items-center justify-center border-b-[1px] border-my-gray py-3 mt-3 mb-6 cursor-pointer hover:scale-[0.95] transition-all duration-[.3s]`}
+            >
                 <FaRegUser className={`text-[32px] ${theme == 'light' ? 'text-my-black' : 'text-my-white'}`} />
                 <div className={`flex-grow-[1] flex flex-col gap-[2px] items-start justify-center px-4`}>
                     <h1 className={`${theme == 'light' ? 'text-my-black' : 'text-my-white'}`}>Minha Conta</h1>
@@ -56,6 +67,7 @@ export default function MyPerfil() {
             </div>
             
             <Navbar />
+            <ModalUpdateUser />
         </div>   
     )
 }

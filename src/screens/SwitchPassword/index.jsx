@@ -63,7 +63,8 @@ export default  function SwitchPassword() {
                 const image = response.data.img ? response.data.img : undefined
 
                 //COLOCA OS DADOS DO BACKEND DO USUÁRIO NO FRONTEND
-                toggleUser(response.data._id, response.data.name, response.data.email, response.data.historico_pedido, response.data.client_type, image, true)
+                //id, name, email, history, cart, client_type, cpf, img, logged
+                toggleUser(response.data._id, response.data.name, response.data.email, response.data.historico_pedido, response.data.cart, response.data.client_type, response.data.cpf, image, true)
                 
                 //NAVEGA PARA A PRÓXIMA PÁGINA
                 navigate('/sign-in')

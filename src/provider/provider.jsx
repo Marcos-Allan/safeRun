@@ -27,6 +27,7 @@ export const GlobalProvider = ({ children }) => {
     const [cart, setCart] = useState(userLS !== null ? JSON.parse(userLS).cart : []);
     const [theme, setTheme] = useState(localStorage.getItem('themeSaferun') !== null ? localStorage.getItem('themeSaferun') : 'light')
     const [loading, setLoading] = useState(false);
+    const [updateUserModal, setUpdateUserModal] = useState(false);
     
 
     //FUNÇAO RESPONSÁVEL PRO MUDAR A VARIÁVEL DE ESTADO E SALVAR NO localStorage
@@ -55,13 +56,18 @@ export const GlobalProvider = ({ children }) => {
         }
     }
 
+    //FUNÇÃO RESPONSÁVEL POR MUDAR O ESTADO DE updateUserModal
+    function toggleUpdateUserModal() {
+        setUpdateUserModal(!updateUserModal)
+    }
+    
     //FUNÇÃO RESPONSÁVEL POR ATUALIZAR OS DADOS DO USUÁRIO
-    function toggleUser(id, name, email, history, cart, client_type, img, logged) {
+    function toggleUser(id, name, email, history, cart, client_type, cpf, img, logged) {
         //SALVA OS DADOS DO USUÁRIO NO localStorage
-        localStorage.setItem('userSafeRun', JSON.stringify({ id: id, name: name, email: email, history: history, cart: cart, client_type: client_type, logged: logged, img: img }))
+        localStorage.setItem('userSafeRun', JSON.stringify({ id: id, name: name, email: email, history: history, cart: cart, client_type: client_type, logged: logged, img: img, cpf: cpf }))
         
         //SALVA OS DADOS NO FRONTEND DA APLICAÇÃO
-        setUser({ id: id, name: name, email: email, history: history, client_type: client_type, logged: logged })
+        setUser({ id: id, name: name, email: email, history: history, client_type: client_type, logged: logged, img: img, cpf: cpf })
 
         //PEGA O CARRINHO DO USUÁRIO
         setCart(cart)
@@ -111,7 +117,7 @@ export const GlobalProvider = ({ children }) => {
     }
 
     return (
-        <GlobalContext.Provider value={{ theme, toggleTheme, user, toggleUser, toggleLogoutUser, cart, addToCart, loading, toggleLoading }}>
+        <GlobalContext.Provider value={{ theme, toggleTheme, user, toggleUser, toggleLogoutUser, cart, addToCart, loading, toggleLoading, updateUserModal, toggleUpdateUserModal }}>
             {children}
         </GlobalContext.Provider>
     );

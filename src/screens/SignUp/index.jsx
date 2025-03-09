@@ -1,8 +1,7 @@
 //IMPORTAÇÃO DAS BIBLIOTECAS
 import { useState, useEffect, useContext } from 'react'
 import { Link, useNavigate } from 'react-router';
-import axios from 'axios'
-import { toast } from 'react-toastify';
+
 
 //IMPORTAÇÃO DO PROVEDOR DOS ESTADOS GLOBAIS
 import { GlobalContext } from "../../provider/context";
@@ -82,7 +81,7 @@ export default  function SignUp() {
                 const image = response.data.img ? response.data.img : undefined
 
                 //COLOCA OS DADOS DO BACKEND DO USUÁRIO NO FRONTEND
-                toggleUser(response.data._id, response.data.name, response.data.email, response.data.historico_pedido, response.data.client_type, image, true)
+                toggleUser(response.data._id, response.data.name, response.data.email, response.data.historico_pedido, response.data.cart, response.data.client_type, response.data.cpf, image, true)
                 
                 //NAVEGA PARA A PRÓXIMA PÁGINA
                 navigate('/principal')

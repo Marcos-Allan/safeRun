@@ -59,7 +59,8 @@ export default  function ForgoutPassword() {
                 const image = response.data.img ? response.data.img : undefined
 
                 //SETA OS DADOS DO USUÁRIO NO FRONTEND DA APLICAÇÃO
-                toggleUser(response.data.user._id, user.name, user.email, user.history, user.cart, user.client_type, image, user.logged )
+                //id, name, email, history, cart, client_type, cpf, img, logged
+                toggleUser(response.data.user._id, user.name, user.email, user.history, user.cart, user.client_type, user.cpf, user.img, user.logged )
                 
                 // MUDA O ESTADO DA APLICAÇÃO PARA false
                 toggleLoading(false)

@@ -52,7 +52,7 @@ export default  function SignIn() {
             const image = response.data.img ? response.data.img : undefined
 
             //COLOCA OS DADOS DO BACKEND DO USUÁRIO NO FRONTEND
-            toggleUser(response.data._id, response.data.name, response.data.email, response.data.historico_pedido, response.data.cart, response.data.client_type, image,  true)
+            toggleUser(response.data._id, response.data.name, response.data.email, response.data.historico_pedido, response.data.cart, response.data.client_type, response.data.cpf, image,  true)
 
             //MUDA O ESTADO DA APLICAÇÃO PARA false
             toggleLoading(false)
