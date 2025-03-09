@@ -55,8 +55,11 @@ export default  function ForgoutPassword() {
                     }
                 })
 
+                //VERIFICA SE O USUÁRIO TEM FOTO DE PERFIL
+                const image = response.data.img ? response.data.img : undefined
+
                 //SETA OS DADOS DO USUÁRIO NO FRONTEND DA APLICAÇÃO
-                toggleUser(response.data.user._id, user.name, user.email, user.history, user.cart, user.client_type, user.logged )
+                toggleUser(response.data.user._id, user.name, user.email, user.history, user.cart, user.client_type, image, user.logged )
                 
                 // MUDA O ESTADO DA APLICAÇÃO PARA false
                 toggleLoading(false)
@@ -140,7 +143,7 @@ export default  function ForgoutPassword() {
             <Input
                 type={'email'}
                 label={'Email'}
-                placeholder={'Email'}
+                placeholder={'exemplo@gmail.com'}
                 validate={emailValid}
                 value={email}
                 onChange={handleEmailInput}

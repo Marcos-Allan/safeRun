@@ -24,6 +24,7 @@ export default function MyPerfil() {
     return(
         <div className={`max-w-screen sm:ps-[77px] sm:w-[100dvw-77px] min-h-[100dvh] flex flex-col items-center justify-start pt-[70px] ${theme == 'light' ? 'bg-my-white text-my-black' : 'bg-my-black text-my-white'} overflow-x-hidden pb-[80px]`}>
             <Header />
+            
             {user.img !== undefined ? (
                 <img src={user.img} alt="" />
             ) : (
@@ -34,6 +35,8 @@ export default function MyPerfil() {
 
             <p className={`mt-5 text-[30px] font-bold ${theme == 'light' ? 'text-my-black' : 'text-my-white'}`}>{user.name}</p>
             
+            <p className={`mt-2 text-[22px] ${theme == 'light' ? 'text-my-black' : 'text-my-white'}`}>{user.cpf !== undefined ? user.cpf : '000.000.000-00'}</p>
+
             <p className={`mt-2 text-[22px] ${theme == 'light' ? 'text-my-black' : 'text-my-white'}`}>{user.email}</p>
 
             <div className={`mt-8 py-4 rounded-[32px] w-full sm:w-[80%] max-w-[700px] flex-grow-[1] flex flex-col items-center justify-start ${theme == 'light' ? 'bg-my-black text-my-white' : 'bg-my-white text-my-black'}`}>

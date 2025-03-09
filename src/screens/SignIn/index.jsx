@@ -48,8 +48,11 @@ export default  function SignIn() {
             //RETORNA A RESPOSTA DA REQUISIÇÃO PRO USUÁRIO
             console.log('rd: '+response.data)
 
+            //VERIFICA SE O USUÁRIO TEM FOTO DE PERFIL
+            const image = response.data.img ? response.data.img : undefined
+
             //COLOCA OS DADOS DO BACKEND DO USUÁRIO NO FRONTEND
-            toggleUser(response.data._id, response.data.name, response.data.email, response.data.historico_pedido, response.data.cart, response.data.client_type, true)
+            toggleUser(response.data._id, response.data.name, response.data.email, response.data.historico_pedido, response.data.cart, response.data.client_type, image,  true)
 
             //MUDA O ESTADO DA APLICAÇÃO PARA false
             toggleLoading(false)
@@ -199,7 +202,7 @@ export default  function SignIn() {
             <Input
                 type={'email'}
                 label={'Email'}
-                placeholder={'Email'}
+                placeholder={'exemplo@gmail.com'}
                 validate={emailValid}
                 value={email}
                 onChange={handleEmailInput}

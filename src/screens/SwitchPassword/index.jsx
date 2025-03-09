@@ -59,8 +59,11 @@ export default  function SwitchPassword() {
                     }
                 })
 
+                //VERIFICA SE O USUÁRIO TEM FOTO DE PERFIL
+                const image = response.data.img ? response.data.img : undefined
+
                 //COLOCA OS DADOS DO BACKEND DO USUÁRIO NO FRONTEND
-                toggleUser(response.data._id, response.data.name, response.data.email, response.data.historico_pedido, response.data.client_type, true)
+                toggleUser(response.data._id, response.data.name, response.data.email, response.data.historico_pedido, response.data.client_type, image, true)
                 
                 //NAVEGA PARA A PRÓXIMA PÁGINA
                 navigate('/sign-in')
@@ -192,7 +195,7 @@ export default  function SwitchPassword() {
 
             <Input
                 label={'Senha'}
-                placeholder={'Coloque sua senha'}
+                placeholder={'********'}
                 type={'password'}
                 validate={passwordValid}
                 value={password}
@@ -202,7 +205,7 @@ export default  function SwitchPassword() {
             
             <Input
                 label={'Confirmar senha'}
-                placeholder={'Confirme a senha'}
+                placeholder={'********'}
                 type={'password'}
                 validate={confirmPasswordValid}
                 value={confirmPassword}

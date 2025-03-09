@@ -9,6 +9,7 @@ import { HiOutlineLockClosed } from "react-icons/hi2";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoMdPhonePortrait } from "react-icons/io";
+import { FaRegIdCard } from "react-icons/fa6";
 
 //IMPORTAÇÃO DO PROVEDOR DOS ESTADOS GLOBAIS
 import { GlobalContext } from '../../provider/context';
@@ -66,6 +67,15 @@ export default function Input(props) {
                             {props.type == 'code' && (
                                 <label>
                                     <IoMdPhonePortrait className={`text-[24px] mb-1
+                                        ${props.validate == true && 'text-my-primary'}
+                                        ${props.validate == false && 'text-my-red'}
+                                        ${props.validate == undefined && `${theme == 'light' ? 'text-my-black' : 'text-my-white'}`}`}
+                                    />
+                                </label>
+                            )}
+                            {props.type == 'cpf' && (
+                                <label>
+                                    <FaRegIdCard className={`text-[24px] mb-1
                                         ${props.validate == true && 'text-my-primary'}
                                         ${props.validate == false && 'text-my-red'}
                                         ${props.validate == undefined && `${theme == 'light' ? 'text-my-black' : 'text-my-white'}`}`}

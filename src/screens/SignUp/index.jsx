@@ -26,16 +26,19 @@ export default  function SignUp() {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('') 
     const [password, setPassword] = useState('')
+    const [cpf, setCpf] = useState('')
     
     const [nameValid, setNameValid] = useState(undefined)
     const [emailValid, setEmailValid] = useState(undefined) 
     const [passwordValid, setPasswordValid] = useState(undefined)
+    const [cpfValid, setCpfValid] = useState(undefined)
     
     const [btnValid, setBtnValid] = useState(false)
 
     const [timeoutIdName, setTimeoutIdName] = useState(null);
     const [timeoutIdEmail, setTimeoutIdEmail] = useState(null);
     const [timeoutIdPassword, setTimeoutIdPassword] = useState(null);
+    const [timeoutIdCpf, setTimeoutIdCpf] = useState(null);
 
     //IMPORTAÇÃO DAS VARIAVEIS DE ESTADO GLOBAL
     const { theme, toggleLoading, toggleUser } = useContext(GlobalContext);
@@ -55,6 +58,7 @@ export default  function SignUp() {
             name: name,
             email: email,
             password: password,
+            cpf: cpf,
         })
         .then(function (response) {
             //RETORNA A RESPOSTA DA REQUISIÇÃO PRO USUÁRIO
@@ -74,8 +78,11 @@ export default  function SignUp() {
                     }
                 })
 
+                //VERIFICA SE O USUÁRIO TEM FOTO DE PERFIL
+                const image = response.data.img ? response.data.img : undefined
+
                 //COLOCA OS DADOS DO BACKEND DO USUÁRIO NO FRONTEND
-                toggleUser(response.data._id, response.data.name, response.data.email, response.data.historico_pedido, response.data.client_type, true)
+                toggleUser(response.data._id, response.data.name, response.data.email, response.data.historico_pedido, response.data.client_type, image, true)
                 
                 //NAVEGA PARA A PRÓXIMA PÁGINA
                 navigate('/principal')
@@ -167,6 +174,30 @@ export default  function SignUp() {
         setTimeoutIdPassword(newTimeoutId);
     }
 
+    //FUNÇÃO RESPONSÁVEL POR SALVAR  O VALOR DO INPUT   
+    function handleCpfInput(e) {
+        //SETA O ESTADO DO INPUT DE NAME COMO undefined
+        setCpfValid(undefined)
+
+        //SETA O NAME COM BASE NO TEXTO DIGITADO NO INPUT
+        setCpf(e.target.value)
+
+        //VERIFICA SE TEM TIMER ATIVO
+        if (timeoutIdCpf) {
+            //CANCELA O TIMER ANTERIOR
+            clearTimeout(timeoutIdCpf);
+        }
+
+        //DEFINE UM NOVO TIMER PARA VALIDAR O INPUT
+        const newTimeoutId = setTimeout(() => {
+            //CHAMA A FUNÇÃO QUE VALIDA O INPUT
+            validatCpfInput(e.target.value)
+        }, 350);
+        
+        //SETA UM NOVO TIMER
+        setTimeoutIdCpf(newTimeoutId);
+    }
+
     //FUNÇÃO RESPONSÁVEL POR VALIDAR CAMPO DP INPUT
     function validatNameInput(name) {
         //USA REGEX PARA VERIFICAR O PADRÃO DA STRING
@@ -228,17 +259,38 @@ export default  function SignUp() {
         }
     }
 
+    //FUNÇÃO RESPONSÁVEL POR VALIDAR CAMPO DP INPUT
+    function validatCpfInput(cpf) {
+        //USA REGEX PARA VERIFICAR O PADRÃO DA STRING
+        const padraoCpf = /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/
+        
+        //VERIFICA SE O NOME ESTÁ VAZIO
+        if(cpf.length >= 0 && cpf.length < 11){
+            //SETA O NAME DO INPUT DE CPF COMO undefined
+            setCpfValid(undefined)
+        }else{
+            //VERIFICA SE O VALOR DO INPUT ESTÁ ENTRO DO PADRÃO DO REGEX
+            if(padraoCpf.test(cpf) == true) {
+                //SETA O NAME DO INPUT DE EMAIL COMO true
+                setCpfValid(true)
+            }else{
+                //SETA O NAME DO INPUT DE EMAIL COMO false
+                setCpfValid(false)
+            }
+        }
+    }
+
     //FUNÇÃO CHAMADA TODA VEZ QUE A PÁGINA É RECARREGADA
     useEffect(() => {
         //VERIFICA SE OS ESTADOS DDOS INPUTS ESTÃO CORRETOS
-        if(emailValid == true && passwordValid == true && nameValid == true){
+        if(emailValid == true && passwordValid == true && nameValid == true && cpfValid == true){
             //SETA O ESTADO DO BOTÃO COMO true
             setBtnValid(true)
         }else{
             //SETA O ESTADO DO BOTÃO COMO false
             setBtnValid(false)
         }
-    },[emailValid, passwordValid, nameValid])
+    },[emailValid, passwordValid, nameValid, cpfValid])
 
     return(
         <div className={`max-w-screen min-h-[100dvh] flex flex-col items-center justify-start pt-[70px] ${theme == 'light' ? 'bg-my-white text-my-black' : 'bg-my-black text-my-white'} overflow-x-hidden pb-[50px]`}>
@@ -248,24 +300,35 @@ export default  function SignUp() {
             <h1 className={`z-[2] w-[80%] text-left font-bold text-[28px] mb-1 max-w-[700px]`}>Vamos comçar</h1>
             <p className={`pl-1 text-left w-[80%] text-my-gray mb-10 text-[16px] max-w-[700px]`}>Crie uma conta para continuar</p>
 
-            <Input
-                type={'email'}
-                label={'Email'}
-                placeholder={'Email'}
-                validate={emailValid}
-                value={email}
-                onChange={handleEmailInput}
-                ind={'email'}
-            />
             
             <Input
                 type={'name'}
                 label={'Nome'}
-                placeholder={'Nome'}
+                placeholder={'Ana'}
                 validate={nameValid}
                 value={name}
                 onChange={handleNameInput}
                 ind={'name'}
+            />
+            
+            <Input
+                type={'cpf'}
+                label={'CPF'}
+                placeholder={'000.000.000-00'}
+                validate={cpfValid}
+                value={cpf}
+                onChange={handleCpfInput}
+                ind={'cpf'}
+            />
+            
+            <Input
+                type={'email'}
+                label={'Email'}
+                placeholder={'exemplo@gmail.com'}
+                validate={emailValid}
+                value={email}
+                onChange={handleEmailInput}
+                ind={'email'}
             />
             
             <Input

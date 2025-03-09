@@ -144,7 +144,7 @@ export default  function ConfirmCode() {
             <Input
                 type={'code'}
                 label={'Código'}
-                placeholder={'Digite o código'}
+                placeholder={'000-000'}
                 validate={codeValid}
                 value={code}
                 onChange={handleCodeInput}
