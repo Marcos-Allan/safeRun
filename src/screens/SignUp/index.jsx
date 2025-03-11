@@ -1,7 +1,8 @@
 //IMPORTAÇÃO DAS BIBLIOTECAS
 import { useState, useEffect, useContext } from 'react'
 import { Link, useNavigate } from 'react-router';
-
+import axios from 'axios'
+import { toast } from 'react-toastify';
 
 //IMPORTAÇÃO DO PROVEDOR DOS ESTADOS GLOBAIS
 import { GlobalContext } from "../../provider/context";
