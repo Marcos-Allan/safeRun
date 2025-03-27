@@ -43,7 +43,8 @@ export default function GoogleLogin() {
                 })
 
                 //COLOCA OS DADOS DO BACKEND DO USUÁRIO NO FRONTEND
-                toggleUser(response.data.person._id, response.data.person.name, response.data.person.email, response.data.person.historico_pedido, response.data.person.cart, response.data.person.client_type, true)
+                // toggleUser(response.data.person._id, response.data.person.name, response.data.person.email, response.data.person.historico_pedido, response.data.person.cart, response.data.person.client_type, true)
+                toggleUser(response.data._id, 'Danilo', 'Danilo@gmail.com', response.data.historico_pedido, response.data.cart, response.data.client_type, '000.000.000-00', undefined,  '11 00000-0000', '11 00000-0000', true)
 
                 //NAVEGA PARA A PRÓXIMA PÁGINA
                 navigate('/principal')

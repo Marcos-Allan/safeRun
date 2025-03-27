@@ -27,14 +27,20 @@ export default function ModalUpdateUser() {
     const [name, setName] = useState(user.name)
     const [img, setImg] = useState(user.img)
     const [cpf, setCpf] = useState(user.cpf)
+    const [phoneOne, setPhoneOne] = useState(user.phone1)
+    const [phoneTwo, setPhoneTwo] = useState(user.phone2)
     
     const [nameValid, setNameValid] = useState(undefined)
     const [cpfValid, setCpfValid] = useState(undefined)
+    const [phoneOneValid, setPhoneOneValid] = useState(undefined)
+    const [phoneTwoValid, setPhoneTwoValid] = useState(undefined)
     
     const [btnValid, setBtnValid] = useState(false)
 
     const [timeoutIdName, setTimeoutIdName] = useState(null);
     const [timeoutIdCpf, setTimeoutIdCpf] = useState(null);
+    const [timeoutIdPhoneOne, setTimeoutIdPhoneOne] = useState(null);
+    const [timeoutIdPhoneTwo, setTimeoutIdPhoneTwo] = useState(null);
     
     //update-usr/${user.id}
     // password, cpf, img
@@ -67,51 +73,26 @@ export default function ModalUpdateUser() {
 
         //MUDA O ESTADO DE CARREGAMENTO DA APLICAÇÃO PARA true
         toggleLoading(true);
-            
-        //FAZ UMA REQUISIÇÃO DO TIPO put PARA ATUALIZAR OS DADOS DO USUÁRIO
-        axios.put(`https://backendsaferun.onrender.com/update-user/${user.id}`, {
-            cpf: cpf,
-            img: img,
-            name: name,
-        })
-        .then(function (response) {
-            //RETORNA A RESPOSTA DA REQUISIÇÃO PRO USUÁRIO
-            console.log(response.data)
+        
+        //DISPENSA O MODAL ATUAL
+        toast.dismiss();
 
-            //MUDA O ESTADO DA APLICAÇÃO PARA false
-            toggleLoading(false)
-
-            //VERIFICA SE O TIPO RETORNADO DA REQUISIÇÃO É UM OBJETO
-            if(typeof response.data === 'object'){
-                toast.dismiss();
-                //CHAMA O MODAL DE SUCESSO
-                toast.success(`Dados atualizados com sucesso`, {
-                    style: {
-                        backgroundColor: theme == 'light' ? "#FEFEFE" : "#0D0D0D",
-                        color: theme == 'light' ? "#0D0D0D" : "#FEFEFE"
-                    }
-                })
-
-                //VERIFICA SE O USUÁRIO TEM FOTO DE PERFIL
-                const image = response.data.img ? response.data.img : undefined
-
-                //COLOCA OS DADOS DO BACKEND DO USUÁRIO NO FRONTEND
-                toggleUser(response.data._id, response.data.name, response.data.email, response.data.historico_pedido, response.data.cart, response.data.client_type, response.data.cpf, image, true)
-            }else{
-                toast.dismiss();
-                //CHAMA O MODAL DE ERRO
-                toast.error(response.data, {
-                    style: {
-                        backgroundColor: theme == 'light' ? "#FEFEFE" : "#0D0D0D",
-                        color: theme == 'light' ? "#0D0D0D" : "#FEFEFE"
-                    }
-                })
+        //CHAMA O MODAL DE SUCESSO
+        toast.success(`Dados atualizados com sucesso`, {
+            style: {
+                backgroundColor: theme == 'light' ? "#FEFEFE" : "#0D0D0D",
+                color: theme == 'light' ? "#0D0D0D" : "#FEFEFE"
             }
         })
-        .catch(function (error) {
-            //ESCREVE O ERRO NO CONSOLE
-            console.log(error)
-        })
+        
+        //VERIFICA SE O USUÁRIO TEM FOTO DE PERFIL
+        const image = undefined
+
+        //COLOCA OS DADOS NO FRONTEND DA APLICAÇÃO
+        toggleUser(user.id, name, user.email, user.historico_pedido, user.cart, user.client_type, cpf, image, phoneOne, phoneTwo, true)
+
+        //MUDA O ESTADO DA APLICAÇÃO PARA false
+        toggleLoading(false)
     }
 
     //FUNÇÃO RESPONSÁVEL POR SALVAR  O VALOR DO INPUT   
@@ -136,6 +117,54 @@ export default function ModalUpdateUser() {
         
         //SETA UM NOVO TIMER
         setTimeoutIdName(newTimeoutId);
+    }
+    
+    //FUNÇÃO RESPONSÁVEL POR SALVAR  O VALOR DO INPUT   
+    function handlePhoneOneInput(e) {
+        //SETA O ESTADO DO INPUT DE NAME COMO undefined
+        setPhoneOneValid(undefined)
+
+        //SETA O NAME COM BASE NO TEXTO DIGITADO NO INPUT
+        setPhoneOne(e.target.value)
+
+        //VERIFICA SE TEM TIMER ATIVO
+        if (timeoutIdPhoneOne) {
+            //CANCELA O TIMER ANTERIOR
+            clearTimeout(timeoutIdPhoneOne);
+        }
+
+        //DEFINE UM NOVO TIMER PARA VALIDAR O INPUT
+        const newTimeoutId = setTimeout(() => {
+            //CHAMA A FUNÇÃO QUE VALIDA O INPUT
+            validatPhoneOneInput(e.target.value)
+        }, 350);
+        
+        //SETA UM NOVO TIMER
+        setTimeoutIdPhoneOne(newTimeoutId);
+    }
+    
+    //FUNÇÃO RESPONSÁVEL POR SALVAR  O VALOR DO INPUT   
+    function handlePhoneTwoInput(e) {
+        //SETA O ESTADO DO INPUT DE NAME COMO undefined
+        setPhoneTwoValid(undefined)
+
+        //SETA O NAME COM BASE NO TEXTO DIGITADO NO INPUT
+        setPhoneTwo(e.target.value)
+
+        //VERIFICA SE TEM TIMER ATIVO
+        if (timeoutIdPhoneTwo) {
+            //CANCELA O TIMER ANTERIOR
+            clearTimeout(timeoutIdPhoneTwo);
+        }
+
+        //DEFINE UM NOVO TIMER PARA VALIDAR O INPUT
+        const newTimeoutId = setTimeout(() => {
+            //CHAMA A FUNÇÃO QUE VALIDA O INPUT
+            validatPhoneTwoInput(e.target.value)
+        }, 350);
+        
+        //SETA UM NOVO TIMER
+        setTimeoutIdPhoneTwo(newTimeoutId);
     }
 
     //FUNÇÃO RESPONSÁVEL POR SALVAR  O VALOR DO INPUT   
@@ -179,6 +208,48 @@ export default function ModalUpdateUser() {
             }else{
                 //SETA O NAME DO INPUT DE EMAIL COMO false
                 setNameValid(false)
+            }
+        }
+    }
+    
+    //FUNÇÃO RESPONSÁVEL POR VALIDAR CAMPO DP INPUT
+    function validatPhoneOneInput(phoneOne) {
+        //USA REGEX PARA VERIFICAR O PADRÃO DA STRING
+        const padraoPhone = /^\d{2}\s?\d{5}-\d{4}$/
+        
+        //VERIFICA SE O NOME ESTÁ VAZIO
+        if(phoneOne.length >= 0 && phoneOne.length < 3){
+            //SETA O NAME DO INPUT DE EMAIL COMO undefined
+            setNameValid(undefined)
+        }else{
+            //VERIFICA SE O VALOR DO INPUT ESTÁ ENTRO DO PADRÃO DO REGEX
+            if(padraoPhone.test(phoneOne) == true) {
+                //SETA O NAME DO INPUT DE EMAIL COMO true
+                setPhoneOneValid(true)
+            }else{
+                //SETA O NAME DO INPUT DE EMAIL COMO false
+                setPhoneOneValid(false)
+            }
+        }
+    }
+    
+    //FUNÇÃO RESPONSÁVEL POR VALIDAR CAMPO DP INPUT
+    function validatPhoneTwoInput(phoneTwo) {
+        //USA REGEX PARA VERIFICAR O PADRÃO DA STRING
+        const padraoPhone = /^\d{2}\s?\d{5}-\d{4}$/
+        
+        //VERIFICA SE O NOME ESTÁ VAZIO
+        if(phoneTwo.length >= 0 && phoneTwo.length < 3){
+            //SETA O NAME DO INPUT DE EMAIL COMO undefined
+            setNameValid(undefined)
+        }else{
+            //VERIFICA SE O VALOR DO INPUT ESTÁ ENTRO DO PADRÃO DO REGEX
+            if(padraoPhone.test(phoneTwo) == true) {
+                //SETA O NAME DO INPUT DE EMAIL COMO true
+                setPhoneTwoValid(true)
+            }else{
+                //SETA O NAME DO INPUT DE EMAIL COMO false
+                setPhoneTwoValid(false)
             }
         }
     }
@@ -261,6 +332,26 @@ export default function ModalUpdateUser() {
                             value={cpf}
                             onChange={handleCpfInput}
                             ind={'cpf'}
+                        />
+                        
+                        <Input
+                            type={'phone'}
+                            label={'Telefone 1'}
+                            placeholder={'11 00000-0000'}
+                            validate={phoneOneValid}
+                            value={phoneOne}
+                            onChange={handlePhoneOneInput}
+                            ind={'phone'}
+                        />
+                        
+                        <Input
+                            type={'phone'}
+                            label={'Telefone 2'}
+                            placeholder={'11 00000-0000'}
+                            validate={phoneTwoValid}
+                            value={phoneTwo}
+                            onChange={handlePhoneTwoInput}
+                            ind={'phone'}
                         />
 
                         <Button text={'atualizar'} event={() => updateUser()} />

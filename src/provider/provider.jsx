@@ -13,15 +13,17 @@ export const GlobalProvider = ({ children }) => {
     const [user, setUser] = useState(
         {
             id: userLS !== null ? JSON.parse(userLS).id : 0,
-            name: userLS !== null ? JSON.parse(userLS).name : "MA",
-            email: userLS !== null ? JSON.parse(userLS).email : "allanmenezes880@gmail.com",
+            name: userLS !== null ? JSON.parse(userLS).name : "Danilo",
+            email: userLS !== null ? JSON.parse(userLS).email : "danilo@gmail.com",
             history: userLS !== null ? JSON.parse(userLS).history : [
                 { data: '9/10/2024', name: 'Caneca Porcelana', img: 'undefined', price: 19.90, quantity: 2, estampa: '', },
                 { data: '24/08/2024', name: 'Caneca Mágica', img: 'undefined', price: 24.75, quantity: 4, estampa: '', }
             ],
             client_type: userLS !== null ? JSON.parse(userLS).client_type : 'client',
-            logged: userLS !== null ? JSON.parse(userLS).logged : false,
+            logged: userLS !== null ? JSON.parse(userLS).logged : true,
             img: userLS !== null ? JSON.parse(userLS).img : undefined,
+            phone1: userLS !== null ? JSON.parse(userLS).phone1 : '11 00000-0000',
+            phone2: userLS !== null ? JSON.parse(userLS).phone2 : '22 00000-0000',
         }
     );
     const [cart, setCart] = useState(userLS !== null ? JSON.parse(userLS).cart : []);
@@ -62,12 +64,12 @@ export const GlobalProvider = ({ children }) => {
     }
     
     //FUNÇÃO RESPONSÁVEL POR ATUALIZAR OS DADOS DO USUÁRIO
-    function toggleUser(id, name, email, history, cart, client_type, cpf, img, logged) {
+    function toggleUser(id, name, email, history, cart, client_type, cpf, img, phone1, phone2, logged) {
         //SALVA OS DADOS DO USUÁRIO NO localStorage
-        localStorage.setItem('userSafeRun', JSON.stringify({ id: id, name: name, email: email, history: history, cart: cart, client_type: client_type, logged: logged, img: img, cpf: cpf }))
+        localStorage.setItem('userSafeRun', JSON.stringify({ id: id, name: name, email: email, history: history, cart: cart, client_type: client_type, logged: logged, img: img, cpf: cpf, phone1: phone1, phone2: phone2 }))
         
         //SALVA OS DADOS NO FRONTEND DA APLICAÇÃO
-        setUser({ id: id, name: name, email: email, history: history, client_type: client_type, logged: logged, img: img, cpf: cpf })
+        setUser({ id: id, name: name, email: email, history: history, client_type: client_type, logged: logged, img: img, cpf: cpf, phone1: phone1, phone2: phone2 })
 
         //PEGA O CARRINHO DO USUÁRIO
         setCart(cart)

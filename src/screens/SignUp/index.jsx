@@ -82,7 +82,8 @@ export default  function SignUp() {
                 const image = response.data.img ? response.data.img : undefined
 
                 //COLOCA OS DADOS DO BACKEND DO USUÁRIO NO FRONTEND
-                toggleUser(response.data._id, response.data.name, response.data.email, response.data.historico_pedido, response.data.cart, response.data.client_type, response.data.cpf, image, true)
+                // toggleUser(response.data._id, response.data.name, response.data.email, response.data.historico_pedido, response.data.cart, response.data.client_type, response.data.cpf, image, true)
+                toggleUser(response.data._id, 'Danilo', 'Danilo@gmail.com', response.data.historico_pedido, response.data.cart, response.data.client_type, '000.000.000-00', undefined,  '11 00000-0000', '11 00000-0000', true)
                 
                 //NAVEGA PARA A PRÓXIMA PÁGINA
                 navigate('/principal')
